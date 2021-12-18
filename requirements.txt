@@ -1,0 +1,6 @@
+imagehash==4.2.1
+numpy==1.21.1; python_version >= "3.7"
+pillow==8.4.0; python_version >= "3.6"
+pywavelets==1.2.0; python_version >= "3.7"
+scipy==1.6.1; python_version >= "3.7"
+six==1.16.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.3.0"
