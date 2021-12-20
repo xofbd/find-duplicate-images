@@ -45,7 +45,7 @@ test-lint: | .make.install.dev
 
 .PHONY: test-unit
 test-unit: | .make.install.dev
-	$(POETRY_RUN) pytest -s
+	$(POETRY_RUN) pytest -s --cov=image
 
 clean:
 	rm -f .make.install.*

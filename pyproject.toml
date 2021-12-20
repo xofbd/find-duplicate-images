@@ -12,6 +12,7 @@ ImageHash = "^4.2.1"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
 flake8 = "^4.0.1"
+pytest-cov = "^3.0.0"
 
 [tool.poetry.scripts]
 find_duplicates = "image.find_duplicates:cli"
