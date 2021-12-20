@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from argparse import ArgumentParser
+from collections import defaultdict
 from pathlib import Path
 
 from imagehash import average_hash
@@ -7,13 +8,28 @@ from PIL import Image
 
 
 def main(path_image, dir_search, recursive):
-    hash_target = hash_image(path_image)
-    duplicate_images = search_duplicates(
-        hash_target,
-        dir_search,
-        recursive=recursive
-    )
-    print_results(duplicate_images)
+    hash_target = map_hash_to_paths(path_image, recursive=False)
+    hash_search = map_hash_to_paths(dir_search, recursive=recursive)
+    hash_duplicates = overlap_hashes(hash_target, hash_search)
+    print_results(hash_target, hash_search, hash_duplicates)
+
+
+def map_hash_to_paths(path_image, recursive=False):
+    """Return mapping between hash and paths of all images with that hash"""
+    hash_to_paths = defaultdict(list)
+
+    if not Path(path_image).is_dir():
+        return {hash_image(Path(path_image)): [Path(path_image)]}
+
+    if recursive:
+        paths = Path(path_image).glob("**/*.[jp][pn]*g")
+    else:
+        paths = Path(path_image).glob("*.[jp][pn]*g")
+
+    for path in paths:
+        hash_to_paths[hash_image(path)].append(path)
+
+    return hash_to_paths
 
 
 def hash_image(path_image):
@@ -22,33 +38,31 @@ def hash_image(path_image):
         return str(average_hash(image))
 
 
-def search_duplicates(hash_target, dir_search, recursive=False):
-    """Return list of paths of all duplicate images"""
-    results = [
-        path for path in Path(dir_search).glob("*.[jp][pn]*g")
-        if hash_target == hash_image(path)
-    ]
-
-    if recursive:
-        for dir_ in Path(dir_search).iterdir():
-            if dir_.is_dir():
-                results += search_duplicates(hash_target, dir_, recursive=True)
-
-    return results
+def overlap_hashes(hash_target, hash_search):
+    """Return a set of hashes common between the two mappings"""
+    return set(hash_target).intersection(set(hash_search))
 
 
-def print_results(duplicate_images):
-    """Print out the paths of the identified duplicate images"""
-    for path in duplicate_images:
-        print(path)
+def print_results(hash_target, hash_search, hash_duplicates):
+    """Print out which images are duplicates and their path"""
+
+    if not hash_duplicates:
+        print("No duplicates found")
+    else:
+        for hash_ in hash_duplicates:
+            paths = " and ".join(map(str, hash_target[hash_]))
+            path_duplicates = "\n".join(map(str, hash_search[hash_]))
+            print(f"Found {len(hash_search[hash_])} duplicates for {paths}")
+            print(path_duplicates)
+            print()
 
 
 def cli():
     parser = ArgumentParser(description="Find duplicate images")
     parser.add_argument(
-        "path_image",
+        "path_target",
         type=str,
-        help="path of image to use for searching duplicates"
+        help="path of image(s) to use for searching duplicates"
     )
     parser.add_argument(
         "dir_search",
@@ -63,4 +77,4 @@ def cli():
     )
     args = parser.parse_args()
 
-    main(args.path_image, args.dir_search, args.recursive)
+    main(args.path_target, args.dir_search, args.recursive)
