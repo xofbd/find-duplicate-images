@@ -25,6 +25,7 @@ install-dev: .make.install.dev
 # Requirements
 poetry.lock: pyproject.toml
 	poetry lock
+	touch $@
 
 requirements.txt: poetry.lock
 	poetry export --without-hashes -f requirements.txt -o $@
