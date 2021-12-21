@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "image"
-version = "0.2.2"
+version = "0.2.3"
 description = "A set of tools to manage image files"
 authors = ["Don Bruce Fox <dfox09@gmail.com>"]
 license = "MIT"
