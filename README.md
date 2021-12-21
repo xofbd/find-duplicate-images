@@ -1,3 +1,9 @@
+![Python](https://shields.io/badge/Python-3.8%20%7C%203.9-blue)
+[![GitHub release](https://img.shields.io/github/v/release/xofbd/find-duplicate-images.svg)](https://github.com/xofbd/find-duplicate-images.svg/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+![CI](https://github.com/xofbd/find-duplicate-images/workflows/CI/badge.svg?branch=master)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/xofbd/find-duplicate-images.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/xofbd/find-duplicate-images/context:python)
+
 # Find Duplicate Images
 This project provides a command line program to look for duplicate images of a given search image. For example, with a target image and a target directory, the program will look to see what images in the target directory are the same as the target image.
 
