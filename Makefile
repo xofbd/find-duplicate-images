@@ -47,8 +47,13 @@ test-lint: | .make.install.dev
 test-unit: | .make.install.dev
 	$(POETRY_RUN) pytest -s --cov=image
 
+.PHONY: tox
+tox: | .make.install.dev
+	$(POETRY_RUN) tox
+
 clean:
 	rm -f .make.install.*
 	rm -rf .pytest_cache
+	rm -rf .tox
 	find . | grep __pycache__ | xargs rm -rf
 	poetry env remove $$(poetry env list | egrep -o ".+\s")
