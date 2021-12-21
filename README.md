@@ -1,4 +1,4 @@
-# Image Management
+# Find Duplicate Images
 This project provides a command line program to look for duplicate images of a given search image. For example, with a target image and a target directory, the program will look to see what images in the target directory are the same as the target image.
 
 The application works by using a special [image hash function](http://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html). A standard hash function such as [SHA-1](https://en.wikipedia.org/wiki/SHA-1) cannot be used because these hash functions rely on the images to be exactly the same. Small differences in bytes will result in a completely different hash value. In short, these image hash functions work by hashing an image that has been distilled down to its core structure by removing things such as high frequency details. This application is built using the [`ImageHash`](https://pypi.org/project/ImageHash/) Python package.
